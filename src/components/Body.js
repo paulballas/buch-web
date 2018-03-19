@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios'
 import Company from './Company'
 import Modal from './Modal'
+import Search from './Search'
 
 class Body extends React.Component {
 
@@ -18,6 +19,8 @@ class Body extends React.Component {
       coState: '',
       coZip: '',
       coCoordinates: [],
+      coTapRoom: '',
+      coUrl: ''
     }
   }
 
@@ -39,7 +42,9 @@ class Body extends React.Component {
       coCity: co.city,
       coState: co.state,
       coZip: co.zip,
-      coCoordinates: co.coordinates
+      coCoordinates: co.coordinates,
+      coTapRoom: co.tap_room,
+      coUrl: co.url
     })
   }
 
@@ -60,6 +65,8 @@ class Body extends React.Component {
           state={this.state.coState}
           zip={this.state.coZip}
           closeModal={this.closeCompanyModal}
+          tapRoom={this.state.coTapRoom}
+          url={this.state.coUrl}
            />
       )
     } else {
@@ -73,6 +80,8 @@ class Body extends React.Component {
         {this.renderCompanyModal()}
         <div className='container full'>
           <div className='pad-container'>
+            <Search />
+            <div className='space-3'/>
             <div className='row middle-xs'>
               {
                 this.state.companies.map((company) => {

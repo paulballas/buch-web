@@ -20,7 +20,19 @@ class Modal extends React.Component {
   }
 
   render() {
-    const {id, title, coordinates, addressOne, addressTwo, city, state, zip, closeModal} = this.props
+    const {
+      id,
+      title,
+      coordinates,
+      addressOne,
+      addressTwo,
+      city,
+      state,
+      zip,
+      closeModal,
+      tapRoom,
+      url
+    } = this.props
     return (
       <div className='modal'>
         <div className='container lg'>
@@ -37,22 +49,24 @@ class Modal extends React.Component {
               <div className='col-md-6 col-xs-12'>
                 <h4 className='m-b-0'>{title}</h4>
                 <p className='m-b-0'>{addressOne} {addressTwo? addressTwo : null}</p>
-                <p>{city}, {state} {zip}</p>
+                <p>{city},
+                  {state} {zip}</p>
+                <a href={url}>{url}</a>
+                { tapRoom? <p>Tap Room!</p> : null }
               </div>
             </div>
             <div className='space-3' />
             <div className='row'>
               {this.state.brews.map((brew) => {
-                if(brew.companies_id === this.props.id){
+                if(brew.companies_id === id){
                   return (
                     <div className="col-md-3 col-xs-6" key={brew.id} >
                       <div className='buch-container'>
-                        <h4>{brew.name}</h4>
-                        <p>{brew.description}</p>
+                        <p>{brew.name}</p>
                         <img
                           src={brew.image}
                           alt={brew.name}
-                          className='co-logo'
+                          className='brew-img'
                           />
                       </div>
                     </div>
