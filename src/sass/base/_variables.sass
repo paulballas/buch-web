@@ -1,0 +1,40 @@
+// Colors
+$primary: #581845 !default
+$secondary: #900C3F !default
+
+$gray-light: #F9F9F9
+
+$primary-pop: #C70039 !default
+$secondary-pop: #FF5733 !default
+$tertiary-pop: #FFC300 !default
+
+$error: #EF5956 !default
+$white: #FFFFFF !default
+
+$text-color: $primary !default
+$primary-btn-color: $primary-pop !default
+$border-color: darken($secondary, 10%) !default
+
+// Radius
+$border-radius: 3px
+
+// Modular Scale
+$ms-base: 16px, 20px
+$ms-ratio: 1.618
+
+// Grid
+$container-width: ms(17)
+$container-side-padding: ms(1)
+$container-top-btm-padding: ms(3)
+
+// Spacing
+$base-margin: ms(1)
+
+// Mixin for responding to different sizes
+$targets: xs 12, sm 14, md 16, lg 18, xl 20
+
+@mixin target($target)
+  @each $candidate in $targets
+    @if $target == nth($candidate, 1)
+      @media screen and (min-width: #{ms(nth($candidate, 2))})
+        @content

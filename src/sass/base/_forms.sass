@@ -1,0 +1,108 @@
+$height: ms(2)
+
+input[type=button],
+input[type=submit]
+  -webkit-appearance: none
+  -webkit-border-radius: 0
+  +btn()
+
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=search],
+input[type=url],
+input[type=tel],
+input[type=number],
+textarea,
+select
+  font-size: ms(0)
+  background: rgba($primary, 0.05)
+  border: 2px solid transparent
+  border-radius: $border-radius
+  line-height: ms(1)
+  padding: ms(-3) ms(-2)
+  transition: all 0.30s
+  box-sizing: border-box
+  -webkit-appearance: none
+  &.input-md
+    font-size: ms(1)
+    line-height: ms(2)
+    padding: ms(-2) ms(-1)
+    &::placeholder
+      font-size: ms(1)
+  &::placeholder
+    font-size: ms(-1)
+    color: rgba($primary, 0.30)
+  &:focus
+    background: $white
+    border: 2px solid rgba($primary, 0.10)
+    &::placeholder
+      color: rgba($primary, 0.10)
+  .form-item &
+    display: block
+    width: 100%
+  .has-error &
+    border: 2px solid $error
+  .has-icon &
+    padding-left: ms(3)
+
+.form-item
+  margin-bottom: ms(1)
+  label
+    display: block
+    margin-bottom: ms(-3)
+
+  > span
+    display: block
+    margin-top: ms(-6)
+
+  &.has-error
+    label
+      color: $error
+    span
+      color: $error
+  &.has-icon
+    label
+      position: relative
+      &:last-of-type
+        margin: 0
+    img
+      position: absolute
+      top: ($height - ms(0)) / 2
+      left: ms(-3)
+      height: ms(0)
+      width: ms(0)
+      opacity: 0.50
+  .form-item-group
+    display: flex
+    align-items: center
+    span
+      line-height: ms(3)
+      &.start
+        padding: 0 ms(-2) 0 0
+      &.end
+        padding: 0 0 0 ms(-2)
+
+
+select
+  height: $height
+
+label
+  font-size: ms(-1)
+  font-weight: 600
+  span
+    font-weight: 400
+
+input[type=file]
+  font-size: ms(-1)
+  height: ms(3)
+
+input[type=checkbox],
+input[type=radio]
+  margin-right: ms(-4)
+
+input[type=checkbox]
+  margin-top: 3px
+
+textarea
+  resize: vertical

@@ -1,0 +1,63 @@
+$directions: ("t" : "top", "b" : "bottom", "l" : "left", "r" : "right")
+
+@each $target, $size in $targets
+  /* #{$target} */
+  @for $i from 0 through 4
+    @each $v, $k in $directions
+      .m-#{$v}-#{$target}-#{$i}
+        +target($target)
+          @if $i == 0
+            margin-#{$k}: 0
+          @else
+            margin-#{$k}: ms($i)
+            
+@each $target, $size in $targets
+  /* #{$target} */
+  @for $i from 0 through 8
+    @each $v, $k in $directions
+      .p-#{$v}-#{$target}-#{$i}
+        +target($target)
+          @if $i == 0
+            margin-#{$k}: 0
+          @else
+            padding-#{$k}: ms($i)
+
+.space-1
+  height: ms(1)
+
+.space-2
+  height: ms(2)
+
+.space-3
+  height: ms(3)
+
+.space-4
+  height: ms(4)
+
+.space-5
+  height: ms(5)
+
+.space-6
+  height: ms(6)
+
+.space-7
+  height: ms(7)
+
+.space-8
+  height: ms(8)
+
+.space-9
+  height: ms(9)
+
+.space-10
+  height: ms(10)
+
+.pad-ends
+  padding-top: ms(6)
+  padding-bottom: ms(6)
+
+.margin-right
+  margin-right: ms(1)
+
+.margin-left
+  margin-left: ms(1)

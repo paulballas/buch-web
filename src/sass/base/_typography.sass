@@ -1,0 +1,72 @@
+@font-face
+  font-family: 'Quicksand', sans-serif
+  src: url('https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700')
+
+$alignment: center left right
+
+@each $target, $size in $targets
+  @each $v in $alignment
+    .#{$v}-text-#{$target}
+      +target($target)
+        &, *
+          text-align: $v
+
+*
+  font-family: 'Quicksand', sans-serif
+  color: $text-color
+
+h1, h2, h3, h4, h5, h6, p, ul, ol, li
+  margin-top: 0
+  margin-bottom: $base-margin
+
+h1, h2
+  line-height: 1.1
+
+h1
+  font-size: ms(4)
+  font-weight: 700
+  +target(md)
+    font-size: ms(5)
+
+h2
+  font-size: ms(3)
+  font-weight: 500
+  +target(md)
+    font-size: ms(4)
+
+h3
+  font-size: ms(2)
+  line-height: ms(4)
+  font-weight: 500
+  +target(md)
+    font-size: ms(3)
+
+h4
+  font-size: ms(0)
+  line-height: ms(3)
+  font-weight: 700
+  +target(md)
+    font-size: ms(1)
+
+h5
+  font-size: ms(-1)
+  line-height: ms(0)
+  font-weight: 700
+  text-transform: uppercase
+
+p, li
+  font-size: ms(1)
+  line-height: 1.4
+  font-weight: 400
+  &.small, &.wee
+    font-size: ms(0)
+    line-height: ms(1)
+
+.m-0
+  margin: 0 !important
+
+.m-b-0
+  margin-bottom: 0 !important
+
+.m-t-0
+  margin-top: 0 !important

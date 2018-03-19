@@ -1,0 +1,42 @@
+.pad-container
+  padding-top: ms(6)
+  padding-bottom: ms(6)
+.co-container
+  display: block
+  height: 100%
+  background: $white
+  border: 1px solid $primary
+  border-radius: $border-radius
+  margin-bottom: ms(2)
+  padding: ms(0)
+  min-height: none
+  &:hover
+    cursor: pointer
+    background: $gray-light
+    box-shadow: 2px 2px 15px rgba($primary, 0.14)
+  +target(md)
+    min-height: ms(10)
+  .co-logo
+    display: block
+    width: ms(8)
+    height: auto
+    margin-left: auto
+    margin-right: auto
+    margin-bottom: ms(0)
+    text-align: center
+  p, h5
+    text-align: center
+  h5
+    color: $primary-pop
+
+.mapBox
+  display: block
+  position: relative
+  height: ms(10)
+  width: 100%
+  overflow: hidden
+  border-radius: $border-radius
+  border: 1px solid darken($gray-light, 10%)
+
+  .mapboxgl-missing-css
+    display: none
