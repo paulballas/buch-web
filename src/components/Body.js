@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios'
 import Company from './Company'
-import MapContainer from './MapContainer'
+import Modal from './Modal'
 
 class Body extends React.Component {
 
@@ -10,14 +10,17 @@ class Body extends React.Component {
     this.state = {
       companies: [],
       companyModal: false,
+      coId: 0,
       coTitle: '',
       coSteetOne: '',
       coSteetTwo: '',
       coCity: '',
       coState: '',
       coZip: '',
+      coCoordinates: [],
     }
   }
+
   componentDidMount() {
     axios.get('http://localhost:3001/api/v1/companies.json')
     .then(response => {
@@ -29,12 +32,14 @@ class Body extends React.Component {
   coOnClick = (co) => {
     this.setState({
       companyModal: true,
+      coId: co.id,
       coTitle: co.title,
       coSteetOne: co.addressOne,
       coSteetTwo: co.addressTwo,
       coCity: co.city,
       coState: co.state,
       coZip: co.zip,
+      coCoordinates: co.coordinates
     })
   }
 
@@ -45,29 +50,17 @@ class Body extends React.Component {
   renderCompanyModal = () => {
     if(this.state.companyModal) {
       return (
-        <div className='modal'>
-          <div className='container lg'>
-            <div className='modal-content'>
-              <div className='row'>
-                <div className='col-xs-12 end-xs'>
-                  <a onClick={this.closeCompanyModal}>Close</a>
-                </div>
-              </div>
-              <div className='row'>
-                <div className='col-xs-12'>
-                  <h4>{this.state.coTitle}</h4>
-                </div>
-                <div className='col-md-4 col-xs-12 relative'>
-                  <MapContainer/>
-                </div>
-                <div className='col-md-8 col-xs-12'>
-                  <p className='m-b-0'>{this.state.coSteetOne} {this.state.coSteetTwo? this.state.coSteetTwo : null}</p>
-                  <p>{this.state.coCity}, {this.state.coState} {this.state.coZip}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Modal
+          id={this.state.coId}
+          title={this.state.coTitle}
+          coordinates={this.state.coCoordinates}
+          addressOne={this.state.coSteetOne}
+          addressTwo={this.state.coSteetTwo}
+          city={this.state.coCity}
+          state={this.state.coState}
+          zip={this.state.coZip}
+          closeModal={this.closeCompanyModal}
+           />
       )
     } else {
       return null

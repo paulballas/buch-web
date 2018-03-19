@@ -5,17 +5,17 @@ class MapContainer extends React.Component {
 
   componentDidMount() {
     mapboxgl.accessToken = 'pk.eyJ1IjoicGF1bGJhbGxhcyIsImEiOiJjaXlnYnM5cXAwMjhqMndwOGZhYTZla2dpIn0.KaM6fMflgk7vlA1A91nFFw'
-    const map = new mapboxgl.Map({
+    new mapboxgl.Map({
       container: 'mapBox',
       style: 'mapbox://styles/paulballas/cjexj6xso2wze2tpfekbpolvg',
-      center: [-105.059787,39.752666],
-      zoom: 10
+      center: this.props.coordinates,
+      zoom: 12
     });
   }
 
-  render() {
+  render() {    
     return (
-      <div className='mapBox' id='mapBox'></div>
+      <div className='mapBox' id='mapBox' />
     );
   }
 }
