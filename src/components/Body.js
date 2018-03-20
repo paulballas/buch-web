@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios'
 import Company from './Company'
 import Modal from './Modal'
-import Search from './Search'
+import SearchBox from './SearchBox'
 
 class Body extends React.Component {
 
@@ -20,7 +20,8 @@ class Body extends React.Component {
       coZip: '',
       coCoordinates: [],
       coTapRoom: '',
-      coUrl: ''
+      coUrl: '',
+      selectedOption: ''
     }
   }
 
@@ -74,13 +75,29 @@ class Body extends React.Component {
     }
   }
 
+  handleSearchChange = (selectedOption) => {
+    this.setState({ selectedOption });
+    console.log(`Selected: ${selectedOption.label}`);
+  }
+
   render() {
+    const { selectedOption } = this.state;
+    const value = selectedOption && selectedOption.value;
+    const searchOptions =(
+      this.state.companies.map((company) => {
+        const searchItems = {}
+        searchItems['value'] = company.title
+        searchItems['label'] = company.title
+        return searchItems
+      })
+    )
+    console.log(searchOptions);
     return (
       <div className='wrapper'>
         {this.renderCompanyModal()}
         <div className='container full'>
           <div className='pad-container'>
-            <Search />
+            <SearchBox />
             <div className='space-3'/>
             <div className='row middle-xs'>
               {
