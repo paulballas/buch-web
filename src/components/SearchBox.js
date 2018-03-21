@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Select from 'react-select';
 import fetch from 'isomorphic-fetch';
 import 'react-select/dist/react-select.css';
@@ -9,22 +8,13 @@ class SearchBox extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      value: '',
+      backspaceRemoves: true,
+      value: ''
     }
   }
 
-  getInitialState () {
-		return {
-			backspaceRemoves: true,
-			multi: true,
-			creatable: false,
-		};
-	}
-
   onChange (value) {
-		this.setState({
-			value: value,
-		});
+		alert('hello')
 	}
 
 	getUsers (input) {
@@ -43,12 +33,24 @@ class SearchBox extends React.Component {
 		window.open(value.html_url);
 	}
 
-  render() {
-    const AsyncComponent = this.state.creatable? Select.AsyncCreatable: Select.Async;
+  toggleBackspaceRemoves () {
+		this.setState({
+			backspaceRemoves: !this.state.backspaceRemoves
+		});
+	}
 
+  render() {
+    const AsyncComponent = Select.Async
 		return (
 			<div className="section">
-				<AsyncComponent multi={this.state.multi} value={this.state.value} onChange={this.onChange} onValueClick={this.gotoUser} valueKey="id" labelKey="login" loadOptions={this.getUsers} backspaceRemoves={this.state.backspaceRemoves} />
+				<AsyncComponent
+          value={this.state.value}
+          onChange={this.onChange}
+          onValueClick={this.gotoUser}
+          valueKey="id"
+          labelKey="login"
+          loadOptions={this.getUsers}
+          backspaceRemoves={this.state.backspaceRemoves} />
 			</div>
 		);
   }

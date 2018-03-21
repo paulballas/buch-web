@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 import axios from 'axios'
 import Company from './Company'
 import Modal from './Modal'
-import SearchBox from './SearchBox'
+import Select from 'react-select';
 
 class Body extends React.Component {
 
@@ -21,7 +21,8 @@ class Body extends React.Component {
       coCoordinates: [],
       coTapRoom: '',
       coUrl: '',
-      selectedOption: ''
+      backspaceRemoves: true,
+      value: ''
     }
   }
 
@@ -75,29 +76,65 @@ class Body extends React.Component {
     }
   }
 
-  handleSearchChange = (selectedOption) => {
-    this.setState({ selectedOption });
-    console.log(`Selected: ${selectedOption.label}`);
+  onSearchChange = (value) => {
+    this.setState(value: value)
+    console.log(value);
   }
 
+  getOptions = (input, callback) => {
+    const newArray = this.state.companies.map(co => {
+      let search = {};
+      search['id'] = co.id
+      search['title'] = co.title
+      search['label'] = co.title
+      return search;
+    })
+    callback(null, {
+      options: newArray
+    });
+    console.log(newArray);
+  }
+
+  toggleBackspaceRemoves = () => {
+		this.setState({
+      backspaceRemoves: !this.state.backspaceRemoves
+		});
+	}
+
+  gotoUser (value, event) {
+		alert(value.logo);
+	}
+
   render() {
-    const { selectedOption } = this.state;
-    const value = selectedOption && selectedOption.value;
-    const searchOptions =(
-      this.state.companies.map((company) => {
-        const searchItems = {}
-        searchItems['value'] = company.title
-        searchItems['label'] = company.title
-        return searchItems
-      })
-    )
-    console.log(searchOptions);
+    const AsyncComponent = Select.Async
     return (
       <div className='wrapper'>
         {this.renderCompanyModal()}
         <div className='container full'>
           <div className='pad-container'>
-            <SearchBox />
+            <div className='row middle-xs'>
+              <div className='col-md-5 col-xs-12'>
+                <AsyncComponent
+                  value={this.state.value}
+                  onChange={this.onSearchChange}
+                  onValueClick={this.gotoUser}
+                  valueKey="value"
+                  labelKey="label"
+                  loadOptions={this.getOptions}
+                  backspaceRemoves={this.state.backspaceRemoves}
+                />
+              </div>
+              <div className='col-md-4 col-xs-12'>
+                <input className='w-100' type='text' placeholder='Location...' />
+              </div>
+              <div className='col-md-3 col-xs-12'>
+                <select placeholder='Filter...' className='w-100'>
+                  <option>Filter...</option>
+                  <option>A</option>
+                  <option>B</option>
+                </select>
+              </div>
+            </div>
             <div className='space-3'/>
             <div className='row middle-xs'>
               {

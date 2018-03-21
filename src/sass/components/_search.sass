@@ -1,44 +1,328 @@
-.search-results-container
-  display: block
-  position: absolute
-  z-index: 300
-  width: 90%
-  padding: ms(0)
-  background: $white
-  border: 1px solid darken($gray-light, 10%)
-  border-radius: $border-radius
-  left: ms(0)
-  top: ms(4)
-a.search-hit
-  display: block
-  vertical-align: middle
-  img
-    display: inline-block
-    width: ms(1)
-    height: auto
-    vertical-align: middle
-    margin-right: ms(0)
-  &:hover
-    cursor: pointer
-
-.ais-Highlight-highlighted, .ais-Snippet-highlighted
-  background-color: #ffc168
-
-.ais-SearchBox-submitIcon
-  display: none
-.ais-SearchBox-resetIcon
-  display: none
-.ais-Hits-list
-  padding: 0
-  margin: 0
-  .ais-Hits-item
-    list-style: none
-    font-size: ms(0)
-    margin-bottom: 0
-    padding: 7px
-    transition: all 300ms
-    &:hover
-      background: $gray-light
+.Select
+  position: relative
+  -webkit-appearance: none
+  &.is-disabled
+    .Select-arrow-zone
+      cursor: default
+      pointer-events: none
+      opacity: 0.35
+    > .Select-control
+      background-color: #f9f9f9
+      &:hover
+        box-shadow: none
+  &.is-open
+    .Select-control
+      border: 2px solid rgba($primary, 0.10)
+    .Select-arrow
+      top: -2px
+      border-color: transparent transparent #999
+      border-width: 0 5px 5px
+    .Select-placeholder
+      opacity: 0
+  &.is-searchable
+    &.is-open > .Select-control, &.is-focused:not(.is-open) > .Select-control
+      cursor: text
+  &.is-focused
+    > .Select-control
+      background: #fff
+    &:not(.is-open) > .Select-control
+      border-color: #007eff
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px rgba(0, 126, 255, 0.1)
+      background: #fff
+  &.has-value
+    &.is-clearable.Select--single > .Select-control .Select-value
+      padding-right: 42px
+    &.Select--single > .Select-control .Select-value .Select-value-label, &.is-pseudo-focused.Select--single > .Select-control .Select-value .Select-value-label
+      color: #333
+    &.Select--single > .Select-control .Select-value a.Select-value-label, &.is-pseudo-focused.Select--single > .Select-control .Select-value a.Select-value-label
       cursor: pointer
-      *
-        color: $secondary
+      text-decoration: none
+    &.Select--single > .Select-control .Select-value a.Select-value-label:hover, &.is-pseudo-focused.Select--single > .Select-control .Select-value a.Select-value-label:hover, &.Select--single > .Select-control .Select-value a.Select-value-label:focus, &.is-pseudo-focused.Select--single > .Select-control .Select-value a.Select-value-label:focus
+      color: #007eff
+      outline: none
+      text-decoration: underline
+    &.Select--single > .Select-control .Select-value a.Select-value-label:focus
+      background: #fff
+    &.is-pseudo-focused
+      &.Select--single > .Select-control .Select-value a.Select-value-label:focus
+        background: #fff
+      .Select-input
+        opacity: 0
+  &.is-open .Select-arrow, .Select-arrow-zone:hover > .Select-arrow
+    border-top-color: #666
+  &.Select--rtl
+    direction: rtl
+    text-align: right
+
+.Select-control
+  -webkit-appearance: none
+  line-height: ms(1)
+  padding: 2px 4px
+  background-color: #fff
+  border: 2px solid transparent
+  border-radius: $border-radius
+  color: $primary
+  display: block
+  border-spacing: 0
+  border-collapse: separate
+  overflow: hidden
+  position: relative
+  width: 100%
+  transition: all 300ms
+
+.Select-placeholder,
+.Select--single > .Select-control .Select-value
+  transition: all 200ms
+  left: ms(0)
+  top: 8px
+  bottom: 0
+  color: rgba($primary, 0.30)
+  line-height: ms(2)
+  position: absolute
+  overflow: hidden
+
+.Select-input
+  height: ms(3)
+  padding-left: 10px
+  padding-right: 10px
+  vertical-align: middle
+  > input
+    width: 100%
+    background: none transparent
+    border: 0 none
+    box-shadow: none
+    cursor: default
+    display: inline-block
+    font-family: inherit
+    font-size: inherit
+    margin: 0
+    outline: none
+    line-height: ms(1)
+    padding: 8px 0 12px
+    -webkit-appearance: none
+
+.is-focused .Select-input > input
+  cursor: text
+
+.has-value.is-pseudo-focused .Select-input
+  opacity: 0
+
+.Select-control:not(.is-searchable) > .Select-input
+  outline: none
+
+.Select-loading-zone
+  cursor: pointer
+  display: table-cell
+  position: relative
+  text-align: center
+  vertical-align: middle
+  width: 16px
+
+.Select-loading
+  -webkit-animation: Select-animation-spin 400ms infinite linear
+  -o-animation: Select-animation-spin 400ms infinite linear
+  animation: Select-animation-spin 400ms infinite linear
+  width: 16px
+  height: 16px
+  box-sizing: border-box
+  border-radius: 50%
+  border: 2px solid #ccc
+  border-right-color: #333
+  display: inline-block
+  position: relative
+  vertical-align: middle
+
+.Select-clear-zone
+  -webkit-animation: Select-animation-fadeIn 200ms
+  -o-animation: Select-animation-fadeIn 200ms
+  animation: Select-animation-fadeIn 200ms
+  color: #999
+  cursor: pointer
+  display: table-cell
+  position: relative
+  text-align: center
+  vertical-align: middle
+  width: 17px
+  &:hover
+    color: #D0021B
+
+.Select-clear
+  display: inline-block
+  font-size: 18px
+  line-height: ms(1)
+
+.Select--multi .Select-clear-zone
+  width: 17px
+
+.Select-arrow-zone
+  position: absolute
+  right: ms(0)
+  top: 8px
+
+.Select--rtl .Select-arrow-zone
+  padding-right: 0
+  padding-left: 5px
+
+.Select-arrow
+  border-color: #999 transparent transparent
+  border-style: solid
+  border-width: 5px 5px 2.5px
+  display: inline-block
+  height: 0
+  width: 0
+  position: relative
+
+.Select-control > *:last-child
+  padding-right: 5px
+
+.Select--multi .Select-multi-value-wrapper
+  display: none
+
+.Select .Select-aria-only
+  position: absolute
+  display: inline-block
+  height: 1px
+  width: 1px
+  margin: -1px
+  clip: rect(0, 0, 0, 0)
+  overflow: hidden
+  float: left
+
+@-webkit-keyframes Select-animation-fadeIn
+  from
+    opacity: 0
+
+  to
+    opacity: 1
+
+
+@keyframes Select-animation-fadeIn
+  from
+    opacity: 0
+
+  to
+    opacity: 1
+
+
+.Select-menu-outer
+  position: absolute
+  border-radius: $border-radius
+  background: $white
+  border: 2px solid
+  border: 2px solid rgba($primary, 0.10)
+  margin-top: 1px
+  left: 0
+  top: 100%
+  width: 100%
+  z-index: 300
+  -webkit-overflow-scrolling: touch
+
+.Select-menu
+  max-height: 198px
+  overflow-y: auto
+
+.Select-option
+  box-sizing: border-box
+  background-color: $white
+  color: $primary
+  cursor: pointer
+  display: block
+  padding: 12px
+  &:last-child
+    border-bottom-right-radius: 4px
+    border-bottom-left-radius: 4px
+  &.is-selected
+    background-color: $secondary
+    background-color: rgba($primary, 0.05)
+    color: #333
+  &.is-focused
+    background-color: rgba($primary, 0.05)
+    color: $secondary
+
+.Select-noresults
+  box-sizing: border-box
+  color: #999999
+  cursor: default
+  display: block
+  padding: 8px 10px
+
+.Select--multi
+  .Select-input
+    vertical-align: middle
+    margin-left: 10px
+    padding: 0
+  &.Select--rtl .Select-input
+    margin-left: 0
+    margin-right: 10px
+  &.has-value .Select-input
+    margin-left: 5px
+  .Select-value
+    background-color: #ebf5ff
+    background-color: rgba(0, 126, 255, 0.08)
+    border-radius: 2px
+    border: 1px solid #c2e0ff
+    border: 1px solid rgba(0, 126, 255, 0.24)
+    color: #007eff
+    display: inline-block
+    font-size: 0.9em
+    line-height: ms(1)
+    margin-left: 5px
+    margin-top: 5px
+    vertical-align: top
+  .Select-value-icon
+    display: inline-block
+    vertical-align: middle
+  .Select-value-label
+    display: inline-block
+    vertical-align: middle
+    border-bottom-right-radius: 2px
+    border-top-right-radius: 2px
+    cursor: default
+    padding: 2px 5px
+  a.Select-value-label
+    color: #007eff
+    cursor: pointer
+    text-decoration: none
+    &:hover
+      text-decoration: underline
+  .Select-value-icon
+    cursor: pointer
+    border-bottom-left-radius: 2px
+    border-top-left-radius: 2px
+    border-right: 1px solid #c2e0ff
+    border-right: 1px solid rgba(0, 126, 255, 0.24)
+    padding: 1px 5px 3px
+    &:hover, &:focus
+      background-color: #d8eafd
+      background-color: rgba(0, 113, 230, 0.08)
+      color: #0071e6
+    &:active
+      background-color: #c2e0ff
+      background-color: rgba(0, 126, 255, 0.24)
+  &.Select--rtl
+    .Select-value
+      margin-left: 0
+      margin-right: 5px
+    .Select-value-icon
+      border-right: none
+      border-left: 1px solid #c2e0ff
+      border-left: 1px solid rgba(0, 126, 255, 0.24)
+  &.is-disabled
+    .Select-value
+      background-color: #fcfcfc
+      border: 1px solid #e3e3e3
+      color: #333
+    .Select-value-icon
+      cursor: not-allowed
+      border-right: 1px solid #e3e3e3
+      &:hover, &:focus, &:active
+        background-color: #fcfcfc
+
+@keyframes Select-animation-spin
+  to
+    transform: rotate(1turn)
+
+
+@-webkit-keyframes Select-animation-spin
+  to
+    -webkit-transform: rotate(1turn)
