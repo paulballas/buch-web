@@ -3,6 +3,7 @@ import axios from 'axios'
 import Company from './Company'
 import Modal from './Modal'
 import Select from 'react-select';
+import PropTypes from 'prop-types';
 
 class Body extends React.Component {
 
@@ -21,6 +22,7 @@ class Body extends React.Component {
       coCoordinates: [],
       coTapRoom: '',
       coUrl: '',
+      multi: false,
       backspaceRemoves: true,
       value: ''
     }
@@ -77,16 +79,18 @@ class Body extends React.Component {
   }
 
   onSearchChange = (value) => {
-    this.setState(value: value)
-    console.log(value);
-  }
+		this.setState({ value: value });
+	}
 
-  getOptions = (input, callback) => {
+  toggleBackspaceRemoves = () => {
+		this.setState({ backspaceRemoves: !this.state.backspaceRemoves });
+	}
+
+  getCompanies = (input, callback) => {
     const newArray = this.state.companies.map(co => {
       let search = {};
       search['id'] = co.id
       search['title'] = co.title
-      search['label'] = co.title
       return search;
     })
     callback(null, {
@@ -95,10 +99,8 @@ class Body extends React.Component {
     console.log(newArray);
   }
 
-  toggleBackspaceRemoves = () => {
-		this.setState({
-      backspaceRemoves: !this.state.backspaceRemoves
-		});
+  openCompany (value, event) {
+		window.open(value.html_url);
 	}
 
   gotoUser (value, event) {
@@ -115,12 +117,14 @@ class Body extends React.Component {
             <div className='row middle-xs'>
               <div className='col-md-5 col-xs-12'>
                 <AsyncComponent
+                  name='form-field-name'
+                  placeholder={'Search...'}
                   value={this.state.value}
                   onChange={this.onSearchChange}
-                  onValueClick={this.gotoUser}
-                  valueKey="value"
-                  labelKey="label"
-                  loadOptions={this.getOptions}
+                  onValueClick={this.openCompany}
+                  valueKey="id"
+                  labelKey="title"
+                  loadOptions={this.getCompanies}
                   backspaceRemoves={this.state.backspaceRemoves}
                 />
               </div>
