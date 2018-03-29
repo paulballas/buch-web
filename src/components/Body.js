@@ -1,16 +1,15 @@
 import React from 'react'
 import axios from 'axios'
+import Header from './Header'
 import Company from './Company'
 import Modal from './Modal'
-import Select from 'react-select';
-import PropTypes from 'prop-types';
 
 class Body extends React.Component {
-
   constructor(props) {
     super(props)
     this.state = {
       companies: [],
+      companyCount: 0,
       companyModal: false,
       coId: 0,
       coTitle: '',
@@ -24,7 +23,48 @@ class Body extends React.Component {
       coUrl: '',
       multi: false,
       backspaceRemoves: true,
-      value: ''
+      value: '',
+      tapRoom: false
+    }
+  }
+
+  renderCompanies = () => {
+    if(this.state.tapRoom) {
+      let filterTap = this.state.companies.filter((company) => {
+        return company.tap_room === true
+      })
+      return (
+        filterTap.map((company) => {
+            return (
+              <div className='col-md-3 col-xs-12' key={company.id}>
+                <Company
+                  logo={company.logo}
+                  title={company.title}
+                  city={company.city}
+                  state={company.state}
+                  tapRoom={company.tap_room}
+                  showCoModal={ () => {this.showCoModal(company)} } />
+              </div>
+            );
+          })
+      )
+
+    } else {
+      return (
+        this.state.companies.map((company) => {
+            return (
+              <div className='col-md-3 col-xs-12' key={company.id}>
+                <Company
+                  logo={company.logo}
+                  title={company.title}
+                  city={company.city}
+                  state={company.state}
+                  tapRoom={company.tap_room}
+                  showCoModal={ () => {this.showCoModal(company)} } />
+              </div>
+            );
+          })
+      )
     }
   }
 
@@ -36,24 +76,30 @@ class Body extends React.Component {
     .catch(error => console.log(error))
   }
 
-  coOnClick = (co) => {
-    this.setState({
-      companyModal: true,
-      coId: co.id,
-      coTitle: co.title,
-      coSteetOne: co.addressOne,
-      coSteetTwo: co.addressTwo,
-      coCity: co.city,
-      coState: co.state,
-      coZip: co.zip,
-      coCoordinates: co.coordinates,
-      coTapRoom: co.tap_room,
-      coUrl: co.url
-    })
+  showCoModal = (co) => {
+    if(co){
+      this.setState({
+        companyModal: true,
+        coId: co.id,
+        coTitle: co.title,
+        coSteetOne: co.addressOne,
+        coSteetTwo: co.addressTwo,
+        coCity: co.city,
+        coState: co.state,
+        coZip: co.zip,
+        coCoordinates: co.coordinates,
+        coTapRoom: co.tap_room,
+        coUrl: co.url
+      })
+    }
+    else { return null }
   }
 
   closeCompanyModal = () => {
-    this.setState({ companyModal: false })
+    this.setState({
+      companyModal: false,
+      value: null
+    })
   }
 
   renderCompanyModal = () => {
@@ -70,20 +116,14 @@ class Body extends React.Component {
           zip={this.state.coZip}
           closeModal={this.closeCompanyModal}
           tapRoom={this.state.coTapRoom}
-          url={this.state.coUrl}
-           />
+          url={this.state.coUrl} />
       )
-    } else {
-      return null
-    }
+    } else { return null }
   }
 
   onSearchChange = (value) => {
 		this.setState({ value: value });
-	}
-
-  toggleBackspaceRemoves = () => {
-		this.setState({ backspaceRemoves: !this.state.backspaceRemoves });
+    this.showCoModal(value)
 	}
 
   getCompanies = (input, callback) => {
@@ -91,70 +131,61 @@ class Body extends React.Component {
       let search = {};
       search['id'] = co.id
       search['title'] = co.title
+      search['addressOne'] = co.addressOne
+      search['addressTwo'] = co.addressTwo
+      search['city'] = co.city
+      search['state'] = co.state
+      search['zip'] = co.zip
+      search['coordinates'] = co.coordinates
+      search['tap_room'] = co.tap_room
+      search['ur'] = co.url
       return search;
     })
     callback(null, {
       options: newArray
     });
-    console.log(newArray);
   }
 
-  openCompany (value, event) {
-		window.open(value.html_url);
-	}
+  filterTapRoom = () => {
+    if(!this.state.tapRoom) {
+      this.setState({ tapRoom: true })
+    } else {
+      this.setState({ tapRoom: false })
+    }
+  }
 
-  gotoUser (value, event) {
-		alert(value.logo);
-	}
+  logMe = (data) => {
+    alert(data)
+  }
 
   render() {
-    const AsyncComponent = Select.Async
     return (
       <div className='wrapper'>
         {this.renderCompanyModal()}
+        <Header
+          onSearchChange={ (value) => {this.onSearchChange(value)} }
+          companiesList={this.getCompanies}
+          value={this.state.value}
+          />
         <div className='container full'>
           <div className='pad-container'>
             <div className='row middle-xs'>
-              <div className='col-md-5 col-xs-12'>
-                <AsyncComponent
-                  name='form-field-name'
-                  placeholder={'Search...'}
-                  value={this.state.value}
-                  onChange={this.onSearchChange}
-                  onValueClick={this.openCompany}
-                  valueKey="id"
-                  labelKey="title"
-                  loadOptions={this.getCompanies}
-                  backspaceRemoves={this.state.backspaceRemoves}
-                />
-              </div>
               <div className='col-md-4 col-xs-12'>
                 <input className='w-100' type='text' placeholder='Location...' />
               </div>
-              <div className='col-md-3 col-xs-12'>
-                <select placeholder='Filter...' className='w-100'>
-                  <option>Filter...</option>
-                  <option>A</option>
-                  <option>B</option>
-                </select>
+              <div className='col-md-4 col-xs-12'>
+                <div className='flex middle'>
+                  <p className='small m-b-0'>Tap Room</p>
+                  <label className='switch'>
+                    <input type='checkbox' onClick={this.filterTapRoom} />
+                    <span className='slider round'></span>
+                  </label>
+                </div>
               </div>
             </div>
             <div className='space-3'/>
             <div className='row middle-xs'>
-              {
-                this.state.companies.map((company) => {
-                  return (
-                    <div className='col-md-3 col-xs-12' key={company.id}>
-                      <Company
-                        logo={company.logo}
-                        title={company.title}
-                        city={company.city}
-                        state={company.state}
-                        coOnClick={ () => {this.coOnClick(company)} } />
-                    </div>
-                  )
-                })
-              }
+              { this.renderCompanies() }
             </div>
           </div>
         </div>

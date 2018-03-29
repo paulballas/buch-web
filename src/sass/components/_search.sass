@@ -1,6 +1,6 @@
 .Select
   position: relative
-  -webkit-appearance: none
+  width: 100%
   &.is-disabled
     .Select-arrow-zone
       cursor: default
@@ -26,9 +26,8 @@
     > .Select-control
       background: #fff
     &:not(.is-open) > .Select-control
-      border-color: #007eff
-      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px rgba(0, 126, 255, 0.1)
-      background: #fff
+      border: 2px solid rgba($primary, 0.10)
+      background: $white
   &.has-value
     &.is-clearable.Select--single > .Select-control .Select-value
       padding-right: 42px
@@ -53,26 +52,20 @@
     text-align: right
 
 .Select-control
-  -webkit-appearance: none
   line-height: ms(1)
   padding: 2px 4px
-  background: rgba($primary, 0.05)
+  background: $white
   border: 2px solid transparent
   border-radius: $border-radius
   color: $primary
   display: block
-  border-spacing: 0
-  border-collapse: separate
-  overflow: hidden
-  position: relative
-  width: 100%
   transition: all 300ms
 
 .Select-placeholder,
 .Select--single > .Select-control .Select-value
   transition: all 200ms
   left: ms(0)
-  top: 8px
+  top: 7px
   bottom: 0
   color: rgba($primary, 0.30)
   line-height: ms(2)
@@ -203,7 +196,6 @@
   border: 2px solid rgba($primary, 0.10)
   left: 0
   top: ms(4)
-  min-width: 100%
   width: 100%
   z-index: 300
   -webkit-overflow-scrolling: touch
