@@ -5,10 +5,7 @@ class Header extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      multi: false,
-      backspaceRemoves: true
-    }
+    this.state = { backspaceRemoves: true }
   }
 
   getCompanies = (input, callback) => {
@@ -44,28 +41,25 @@ class Header extends React.Component {
     const AsyncComponent = Select.Async
     return (
       <header>
-        <div className='container'>
+        <div className='container full header-pad'>
           <div className='row middle-xs'>
             <div className='col-md-2 col-xs-12'>
               <p className='small m-b-0'>Kombucha DB</p>
             </div>
-            <div className='col-md-8 col-xs-12'>
-              <div className='form-item m-b-0'>
-                <AsyncComponent
-                  name='form-field-name'
-                  placeholder={'Search...'}
-                  value={this.props.value}
-                  onChange={this.handleSearchChange}
-                  onValueClick={this.openCompany}
-                  valueKey='id'
-                  labelKey='title'
-                  loadOptions={this.props.companiesList}
-                  backspaceRemoves={this.state.backspaceRemoves}
-                />
-              </div>
+            <div className='col-md-7 col-xs-12'>
+              <AsyncComponent
+                name='form-field-name'
+                placeholder={'Search...'}
+                value={this.props.value}
+                onChange={this.handleSearchChange}
+                onValueClick={this.openCompany}
+                valueKey='id'
+                labelKey='title'
+                loadOptions={this.props.companiesList}
+                backspaceRemoves={this.state.backspaceRemoves} />
             </div>
-            <div className='col-md-2 col-xs-12'>
-              <nav className='flex middle between'>
+            <div className='col-md-3 col-xs-12'>
+              <nav className='flex middle around'>
                 <a className='m-b-0'>About</a>
                 <a className='m-b-0'>Contact</a>
               </nav>

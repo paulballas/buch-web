@@ -1,6 +1,8 @@
 .Select
   position: relative
   width: 100%
+  border: 2px solid rgba($primary, 0.10)
+  border-radius: $border-radius
   &.is-disabled
     .Select-arrow-zone
       cursor: default
@@ -52,14 +54,13 @@
     text-align: right
 
 .Select-control
+  border: 2px solid rgba($primary, 0.10)
+  border-radius: $border-radius
   line-height: ms(1)
   padding: 2px 4px
   background: $white
-  border: 2px solid transparent
-  border-radius: $border-radius
   color: $primary
   display: block
-  transition: all 300ms
 
 .Select-placeholder,
 .Select--single > .Select-control .Select-value
@@ -167,7 +168,6 @@
   display: inline-block
   height: 1px
   width: 1px
-  margin: -1px
   clip: rect(0, 0, 0, 0)
   overflow: hidden
   float: left
@@ -192,11 +192,11 @@
   position: absolute
   border-radius: $border-radius
   background: $white
-  border: 2px solid
   border: 2px solid rgba($primary, 0.10)
   left: 0
   top: ms(4)
   width: 100%
+  max-width: 613px
   z-index: 300
   -webkit-overflow-scrolling: touch
   box-shadow: 1px 1px 15px rgba($primary, 0.05)

@@ -3,6 +3,7 @@ import axios from 'axios'
 import Header from './Header'
 import Company from './Company'
 import Modal from './Modal'
+import SideRail from './SideRail'
 
 class Body extends React.Component {
   constructor(props) {
@@ -21,8 +22,6 @@ class Body extends React.Component {
       coCoordinates: [],
       coTapRoom: '',
       coUrl: '',
-      multi: false,
-      backspaceRemoves: true,
       value: '',
       tapRoom: false
     }
@@ -154,41 +153,33 @@ class Body extends React.Component {
     }
   }
 
-  logMe = (data) => {
-    alert(data)
-  }
-
   render() {
     return (
-      <div className='wrapper'>
+      <div>
+
         {this.renderCompanyModal()}
+
         <Header
           onSearchChange={ (value) => {this.onSearchChange(value)} }
           companiesList={this.getCompanies}
-          value={this.state.value}
-          />
-        <div className='container full'>
-          <div className='pad-container'>
-            <div className='row middle-xs'>
-              <div className='col-md-4 col-xs-12'>
-                <input className='w-100' type='text' placeholder='Location...' />
-              </div>
-              <div className='col-md-4 col-xs-12'>
-                <div className='flex middle'>
-                  <p className='small m-b-0'>Tap Room</p>
-                  <label className='switch'>
-                    <input type='checkbox' onClick={this.filterTapRoom} />
-                    <span className='slider round'></span>
-                  </label>
+          value={this.state.value} />
+
+        <div className='flex relaltive m-height-100'>
+          <SideRail
+            tapRoom={this.filterTapRoom}
+            tapRoomState={this.state.tapRoom}
+            />
+          <div className='content'>
+            <div className='container full'>
+              <div className='pad-container-xs'>
+                <div className='row middle-xs'>
+                  { this.renderCompanies() }
                 </div>
               </div>
             </div>
-            <div className='space-3'/>
-            <div className='row middle-xs'>
-              { this.renderCompanies() }
-            </div>
           </div>
         </div>
+
       </div>
     )
   }

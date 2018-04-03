@@ -9,6 +9,9 @@ a
 .w-100
   width: 100%
 
+.m-height-100
+  min-height: 100%
+
 .flex
   display: flex
   &.middle
@@ -21,3 +24,39 @@ a
     justify-content: space-between
   &.around
     justify-content: space-around
+
+.content, .side-rai
+  flex-grow: 1
+  display: block
+
+.side-rail
+  z-index: 2000
+  position: relative
+  padding: 0
+  width: ms(11)
+  min-width: ms(11)
+  max-width: 100%
+  background: #fff
+  border-right: 1px solid darken($gray-light, 10%)
+  .sr-section
+    padding: ms(0) ms(1)
+    border-bottom: 1px solid darken($gray-light, 10%)
+    transition: all 400ms
+    &.filter-section
+      background: $gray-light
+      &:hover
+        cursor: pointer
+        background: darken($gray-light, 10%)
+    &.active
+      background: darken($gray-light, 10%)
+      *
+        color: $secondary
+      .circle
+        background: $secondary
+        box-shadow: 1px 1px 10px rgba($primary, 0.15)
+    .circle
+      display: block
+      width: 9px
+      height: 9px
+      border-radius: 100%
+      background: darken($gray-light, 20%)
