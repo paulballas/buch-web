@@ -23,7 +23,8 @@ class Body extends React.Component {
       coTapRoom: '',
       coUrl: '',
       value: '',
-      tapRoom: false
+      tapRoom: false,
+      hello: ''
     }
   }
 
@@ -73,6 +74,20 @@ class Body extends React.Component {
       this.setState({companies: response.data})
     })
     .catch(error => console.log(error))
+  }
+
+  zipSearch = () => {
+    const key = 'AIzaSyCm6Kl-VesfrCP-OTIk3y3wt__jfiqlC5s'
+    const origins = '80211'
+    const destinations = '20171'
+    const mapsUrl = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=' + origins + '&destinations=' + destinations + '&key=' + key
+    console.log(mapsUrl);
+    axios.get(mapsUrl, {
+      mode: 'no-cors'
+    })
+    .then(response => {
+      console.log(response);
+    })
   }
 
   showCoModal = (co) => {
@@ -164,11 +179,13 @@ class Body extends React.Component {
           companiesList={this.getCompanies}
           value={this.state.value} />
 
+        <h3 onClick={this.zipSearch}>search me</h3>
+
         <div className='flex relaltive m-height-100'>
           <SideRail
             tapRoom={this.filterTapRoom}
-            tapRoomState={this.state.tapRoom}
-            />
+            tapRoomState={this.state.tapRoom} />
+
           <div className='content'>
             <div className='container full'>
               <div className='pad-container-xs'>
@@ -178,6 +195,7 @@ class Body extends React.Component {
               </div>
             </div>
           </div>
+
         </div>
 
       </div>
