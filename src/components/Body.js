@@ -23,30 +23,60 @@ class Body extends React.Component {
       coTapRoom: '',
       coUrl: '',
       value: '',
-      tapRoom: false,
-      hello: ''
+      hello: '',
+      filters: {
+      }
     }
   }
 
+  renderCompaniesTwo = () => {
+    let filterCompanies = this.state.companies.filter((company) => {
+      let shouldRender = true
+      Object.keys(this.state.filters).forEach((key) => {
+        shouldRender = shouldRender && company[key] === this.state.filters[key]
+      })
+      return shouldRender
+    })
+
+    return (
+      filterCompanies.map((company) => {
+          return (
+            <div className='col-md-3 col-xs-12' key={company.id}>
+              <Company
+                logo={company.logo}
+                title={company.title}
+                city={company.city}
+                state={company.state}
+                tap_room={company.tap_room}
+                online={company.online}
+                showCoModal={ () => {this.showCoModal(company)} } />
+            </div>
+          );
+        })
+    )
+
+  }
+
   renderCompanies = () => {
-    if(this.state.tapRoom) {
+    if(this.state.tap_room) {
       let filterTap = this.state.companies.filter((company) => {
         return company.tap_room === true
       })
       return (
         filterTap.map((company) => {
-            return (
-              <div className='col-md-3 col-xs-12' key={company.id}>
-                <Company
-                  logo={company.logo}
-                  title={company.title}
-                  city={company.city}
-                  state={company.state}
-                  tapRoom={company.tap_room}
-                  showCoModal={ () => {this.showCoModal(company)} } />
-              </div>
-            );
-          })
+          return (
+            <div className='col-md-3 col-xs-12' key={company.id}>
+              <Company
+                logo={company.logo}
+                title={company.title}
+                city={company.city}
+                state={company.state}
+                tap_room={company.tap_room}
+                online={company.online}
+                showCoModal={ () => {this.showCoModal(company)} } />
+            </div>
+          );
+        })
       )
 
     } else {
@@ -59,7 +89,8 @@ class Body extends React.Component {
                   title={company.title}
                   city={company.city}
                   state={company.state}
-                  tapRoom={company.tap_room}
+                  tap_room={company.tap_room}
+                  online={company.online}
                   showCoModal={ () => {this.showCoModal(company)} } />
               </div>
             );
@@ -129,7 +160,7 @@ class Body extends React.Component {
           state={this.state.coState}
           zip={this.state.coZip}
           closeModal={this.closeCompanyModal}
-          tapRoom={this.state.coTapRoom}
+          tap_room={this.state.coTapRoom}
           url={this.state.coUrl} />
       )
     } else { return null }
@@ -161,11 +192,22 @@ class Body extends React.Component {
   }
 
   filterTapRoom = () => {
-    if(!this.state.tapRoom) {
-      this.setState({ tapRoom: true })
+    if(!this.state.tap_room) {
+      this.setState({ tap_room: true })
     } else {
-      this.setState({ tapRoom: false })
+      this.setState({ tap_room: false })
     }
+  }
+
+  renderFilters = (f, v) => {
+    let newFilters = this.state.filters
+    if(v === false || v === '' || v === undefined){
+      delete newFilters[f]
+    } else {
+      newFilters[f] = v
+    }
+
+    this.setState({filters: newFilters})
   }
 
   render() {
@@ -179,18 +221,17 @@ class Body extends React.Component {
           companiesList={this.getCompanies}
           value={this.state.value} />
 
-        <h3 onClick={this.zipSearch}>search me</h3>
-
         <div className='flex relaltive m-height-100'>
           <SideRail
-            tapRoom={this.filterTapRoom}
-            tapRoomState={this.state.tapRoom} />
+            filterState={this.state.filters}
+            filterCompanies={(f, v) => this.renderFilters(f, v)}
+            />
 
           <div className='content'>
             <div className='container full'>
               <div className='pad-container-xs'>
                 <div className='row middle-xs'>
-                  { this.renderCompanies() }
+                  { this.renderCompaniesTwo() }
                 </div>
               </div>
             </div>

@@ -30,7 +30,7 @@ class Modal extends React.Component {
       state,
       zip,
       closeModal,
-      tapRoom,
+      tap_room,
       url
     } = this.props
     return (
@@ -52,7 +52,7 @@ class Modal extends React.Component {
                 <p>{city},
                   {state} {zip}</p>
                 <a href={url}>{url}</a>
-                { tapRoom? <p>Tap Room!</p> : null }
+                { tap_room? <p>Tap Room!</p> : null }
               </div>
             </div>
             <div className='space-3' />

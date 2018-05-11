@@ -8,12 +8,13 @@ class MapContainer extends React.Component {
     new mapboxgl.Map({
       container: 'mapBox',
       style: 'mapbox://styles/paulballas/cjexj6xso2wze2tpfekbpolvg',
-      center: this.props.coordinates,
+      LngLat: this.props.coordinates,
+      center: [0,0],
       zoom: 12
     });
   }
 
-  render() {    
+  render() {
     return (
       <div className='mapBox' id='mapBox' />
     );
